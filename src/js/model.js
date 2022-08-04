@@ -1,6 +1,5 @@
 import { async } from 'regenerator-runtime';
 import { API_URL, RES_PER_PAGE, KEY } from './config.js';
-// import { getJSON, sendJSON } from './helpers';
 import { AJAX } from './helpers.js';
 
 export const state = {
@@ -34,15 +33,12 @@ export const loadRecipe = async function (id) {
     const data = await AJAX(`${API_URL}${id}`);
     state.recipe = createRecipeObject(data);
 
-    // console.log(res, data);
-
     if (state.bookmarks.some(bookmark => bookmark.id === id)) {
       state.recipe.bookmarked = true;
     } else {
       state.recipe.bookmarked = false;
     }
   } catch (err) {
-    // Temporary error handling
     console.error(`${err} 💣💣💣💣`);
     throw err;
   }
@@ -81,7 +77,6 @@ export const getSearchResultsPage = function (page = state.search.page) {
 
 export const updateServings = function (newServings) {
   state.recipe.ingredients.forEach(ing => {
-    // new quantity = old quantity * new servings / old servings
     ing.quantity = (ing.quantity * newServings) / state.recipe.servings;
   });
 
@@ -93,10 +88,8 @@ const persistBookmarks = function () {
 };
 
 export const addBookmark = function (recipe) {
-  // Add bookmark
   state.bookmarks.push(recipe);
 
-  // Mark current recipe as bookmarked
   if (recipe.id === state.recipe.id) {
     state.recipe.bookmarked = true;
   }
@@ -105,11 +98,9 @@ export const addBookmark = function (recipe) {
 };
 
 export const deleteBookmark = function (id) {
-  // Delete bookmark
   const index = state.bookmarks.findIndex(el => el.id === id);
   state.bookmarks.splice(index, 1);
 
-  // Mark current recipe as not bookmarked
   if (id === state.recipe.id) {
     state.recipe.bookmarked = false;
   }
@@ -130,14 +121,12 @@ const clearBookmarks = function () {
   localStorage.clear('bookmarks');
 };
 
-// clearBookmarks();
 
 export const uploadRecipe = async function (newRecipe) {
   try {
     const ingredients = Object.entries(newRecipe)
       .filter(entry => entry[0].startsWith('ingredient') && entry[1] !== '')
       .map(ing => {
-        // const ingArr = ing[1].replaceAll(' ', '').split(',');
         const ingArr = ing[1].split(',').map(el => el.trim());
 
         if (ingArr.length !== 3) {
