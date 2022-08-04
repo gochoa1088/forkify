@@ -30,18 +30,14 @@ export default class View {
 
     newElements.forEach((newEl, i) => {
       const curEl = curElements[i];
-      //   console.log(curEl, newEl.isEqualNode(curEl));
 
-      // Updates text
       if (
         !newEl.isEqualNode(curEl) &&
         newEl.firstChild?.nodeValue.trim() !== ''
       ) {
-        // console.log('😎', newEl.firstChild.nodeValue.trim());
         curEl.textContent = newEl.textContent;
       }
 
-      // Update attributes
       if (!newEl.isEqualNode(curEl)) {
         Array.from(newEl.attributes).forEach(attr =>
           curEl.setAttribute(attr.name, attr.value)
