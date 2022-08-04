@@ -19,7 +19,6 @@ class PaginationView extends View {
     const numPages = Math.ceil(
       this._data.results.length / this._data.resultsPerPage
     );
-    // Page 1, and there are other pages
     if (curPage === 1 && numPages > 1) {
       return `<button data-goto="${
         curPage + 1
@@ -31,7 +30,6 @@ class PaginationView extends View {
              </button>`;
     }
 
-    // Last page
     if (curPage === numPages && numPages > 1) {
       return `<button  data-goto="${
         curPage - 1
@@ -43,7 +41,6 @@ class PaginationView extends View {
              </button>`;
     }
 
-    // Other pages
     if (curPage < numPages) {
       return `<button data-goto="${
         curPage - 1
@@ -63,7 +60,6 @@ class PaginationView extends View {
              </button>`;
     }
 
-    // Page 1, and there are NO other pages
     return '';
   }
 }
